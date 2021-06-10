@@ -1,0 +1,173 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Visualizer3.gd" type="Script" id=2]
+[ext_resource path="res://Visualizer1.gd" type="Script" id=3]
+[ext_resource path="res://Visualizer2.gd" type="Script" id=4]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.41425
+margin_bottom = 1.41425
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 15.991
+margin_top = 567.177
+margin_right = 66.991
+margin_bottom = 587.177
+text = "PLAY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -80.0
+
+[node name="TrackLength" type="Label" parent="."]
+margin_left = 939.0
+margin_top = 530.0
+margin_right = 1012.0
+margin_bottom = 544.0
+align = 1
+valign = 1
+
+[node name="CurrentPlayback" type="Label" parent="."]
+margin_left = 14.0
+margin_top = 530.0
+margin_right = 96.0
+margin_bottom = 544.0
+valign = 1
+
+[node name="Volume" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Volume"]
+margin_left = 934.0
+margin_top = 353.0
+margin_right = 974.0
+margin_bottom = 543.0
+color = Color( 0.207843, 0.286275, 0.356863, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VolumeSlider" type="VSlider" parent="Volume"]
+margin_left = 943.522
+margin_top = 356.205
+margin_right = 961.522
+margin_bottom = 538.205
+size_flags_horizontal = 1
+size_flags_vertical = 0
+min_value = -80.0
+max_value = 0.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PlayBackSlider" type="HSlider" parent="."]
+margin_left = 5.99323
+margin_top = 547.631
+margin_right = 1015.99
+margin_bottom = 563.631
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_right = 460.0
+margin_bottom = 337.0
+window_title = "Open File(s)"
+mode = 1
+access = 2
+filters = PoolStringArray( "*mp3", "*ogg", "*wav" )
+current_dir = "/"
+current_path = "/"
+
+[node name="Playlist" type="ItemList" parent="."]
+margin_left = 638.78
+margin_top = 45.3571
+margin_right = 919.78
+margin_bottom = 305.357
+custom_colors/font_color_selected = Color( 0.321569, 0.780392, 0.364706, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddSongButton" type="Button" parent="."]
+margin_left = 894.187
+margin_top = 306.715
+margin_right = 918.187
+margin_bottom = 326.715
+text = "..."
+
+[node name="VolumeButton" type="Button" parent="."]
+margin_left = 943.988
+margin_top = 567.1
+margin_right = 963.988
+margin_bottom = 587.1
+toggle_mode = true
+text = "V"
+
+[node name="StopButton" type="Button" parent="."]
+margin_left = 75.4461
+margin_top = 567.407
+margin_right = 115.446
+margin_bottom = 587.407
+text = "Stop"
+
+[node name="PrevButton" type="Button" parent="."]
+margin_left = 122.704
+margin_top = 567.268
+margin_right = 154.704
+margin_bottom = 587.268
+text = "Prev"
+
+[node name="NextButton" type="Button" parent="."]
+margin_left = 173.111
+margin_top = 566.512
+margin_right = 215.111
+margin_bottom = 586.512
+text = "Next"
+
+[node name="Visualizer1" type="Node2D" parent="."]
+visible = false
+position = Vector2( 324.436, 280.908 )
+script = ExtResource( 3 )
+
+[node name="Visualizer2" type="Node2D" parent="."]
+position = Vector2( 122.343, 396.881 )
+script = ExtResource( 4 )
+
+[node name="Visualizer3" type="Node2D" parent="."]
+visible = false
+position = Vector2( 336.963, 392.969 )
+script = ExtResource( 2 )
+
+[node name="ColorPicker" type="ColorPickerButton" parent="."]
+margin_left = 338.0
+margin_top = 469.0
+margin_right = 364.0
+margin_bottom = 489.0
+
+[connection signal="pressed" from="Button" to="." method="play_button"]
+[connection signal="value_changed" from="Volume/VolumeSlider" to="." method="_on_VolumeSlider_value_changed"]
+[connection signal="value_changed" from="PlayBackSlider" to="." method="_on_PlayBackSlider_value_changed"]
+[connection signal="files_selected" from="FileDialog" to="." method="_on_FileDialog_files_selected"]
+[connection signal="item_activated" from="Playlist" to="." method="_on_ItemList_item_activated"]
+[connection signal="item_selected" from="Playlist" to="." method="_on_ItemList_item_selected"]
+[connection signal="pressed" from="AddSongButton" to="." method="_on_AddSongButton_pressed"]
+[connection signal="toggled" from="VolumeButton" to="." method="_on_VolumeButton_toggled"]
+[connection signal="pressed" from="StopButton" to="." method="_on_StopButton_pressed"]
+[connection signal="pressed" from="PrevButton" to="." method="_on_PrevButton_pressed"]
+[connection signal="pressed" from="NextButton" to="." method="_on_NextButton_pressed"]
+[connection signal="color_changed" from="ColorPicker" to="." method="_on_ColorPicker_color_changed"]
