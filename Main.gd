@@ -192,6 +192,7 @@ func PlaySong():
 	PlayBackSlider.max_value = stream.get_length()
 	file.close()
 	currentsong = songplay
+	AudioPlayer.seek(0)
 	
 
 
@@ -335,8 +336,11 @@ func _on_AudioStreamPlayer_finished():
 			PlaySong()
 
 		elif currentsongidx == songlist.size() - 1:
+			yield(get_tree(),"idle_frame")
 			currentsongidx = 0
+			yield(get_tree(),"idle_frame")
 			songplay = songlist[currentsongidx]
+			yield(get_tree(),"idle_frame")
 			PlaySong()
 			Playlist.select(currentsongidx)
 
