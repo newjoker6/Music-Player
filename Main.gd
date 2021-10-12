@@ -9,7 +9,6 @@ onready var PlayBackSlider = $PlayBackSlider
 onready var Playlist = $Playlist
 
 
-#var visualizer01 = load("res://Visualizer.gd")
 
 
 var stream
@@ -41,14 +40,6 @@ func _ready():
 	VolumeSlider.value = StartingDB
 	AudioPlayer.volume_db = StartingDB
 	
-#	lowpass = AudioServer.get_bus_effect(0, 0)
-#	lowshelf = AudioServer.get_bus_effect(0, 1)
-#
-#	lowpass.set_cutoff(1000.0)
-#	lowshelf.set_cutoff(1000.0)
-#
-#	print(lowpass.get_cutoff())
-#	print(lowshelf.get_cutoff())
 
 
 
@@ -172,9 +163,6 @@ func PlaySong():
 	elif songplay.ends_with(".ogg"):
 		print(songplay)
 		stream = AudioStreamOGGVorbis.new()
-#		for i in 200:
-#			buffer.remove(buffer.size()-1)
-#			buffer.remove(0)
 		stream.data = buffer
 		AudioPlayer.stream = stream
 		AudioPlayer.set_stream_paused(false)
@@ -313,12 +301,7 @@ func _on_LoopButton_pressed():
 
 
 func _on_AudioStreamPlayer_finished():
-#	_on_NextButton_pressed()
-	
-#	yield(get_tree().create_timer(0.5),"timeout")
-#	currentsongidx += 1
-#	songplay = songlist[currentsongidx]
-#	PlaySong()
+
 	if loop == true:
 		songplay = songlist[currentsongidx]
 		PlaySong()
