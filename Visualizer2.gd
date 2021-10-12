@@ -17,8 +17,8 @@ var histogram = []
 var color = Color.green
 
 func _ready():
-	max_db += get_parent().get_node("AudioStreamPlayer").volume_db
-	min_db += get_parent().get_node("AudioStreamPlayer").volume_db
+	max_db += get_parent().get_parent().get_node("AudioStreamPlayer").volume_db
+	min_db += get_parent().get_parent().get_node("AudioStreamPlayer").volume_db
 	
 	for i in range(definition):
 		histogram.append(0)

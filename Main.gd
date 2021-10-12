@@ -28,9 +28,15 @@ var currentsec = 0
 
 var StartingDB = -20
 
+var loop = false
+
 
 
 func _ready():
+	add_options()
+	$ColorPicker.color = Color.green
+	
+
 	
 	VolumeSlider.value = StartingDB
 	AudioPlayer.volume_db = StartingDB
@@ -59,7 +65,7 @@ func _process(delta):
 		calc_time()
 		
 		PlayBackSlider.value = currenttime
-
+	
 
 
 func calc_time():
@@ -84,19 +90,21 @@ func DisplayCurrentTime():
 func play_button():
 	if songplay != currentsong:
 		PlaySong()
+		$Button.text = "Pause"
 		
 	elif AudioPlayer.is_playing() and currentsong == songplay:
 		PauseMusic()
+		$Button.text = "Play"
 
 
 
 func PlaySong():
 	
+	yield(get_tree(),"idle_frame")
 	var file = File.new()
 	file.open(songplay, file.READ)
+	yield(get_tree(),"idle_frame")
 	var buffer = file.get_buffer(file.get_len())
-
-
 
 	if songplay.ends_with(".wav"):
 		stream = AudioStreamSample.new()
@@ -239,8 +247,8 @@ func _on_FileDialog_files_selected(paths):
 func _on_AddSongButton_pressed():
 	$FileDialog.popup_exclusive = true
 	print(OS.get_system_dir(OS.SYSTEM_DIR_MUSIC))
-	$FileDialog.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC)
-	$FileDialog.current_path = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC)
+	$FileDialog.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC) + "/Music"
+	$FileDialog.current_path = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC) + "/Music"
 	$FileDialog.popup_centered()
 
 
@@ -255,12 +263,15 @@ func _on_VolumeButton_toggled(button_pressed):
 
 
 func _on_StopButton_pressed():
-	AudioPlayer.stop()
+	AudioPlayer.set_stream_paused(true)
+	yield(get_tree().create_timer(0.3),"timeout")
 	currentsong = ""
 	CurrentPlayback.text = "0:00"
-	yield(get_tree().create_timer(0.1),"timeout")
 	print("reset")
 	PlayBackSlider.value = 0
+	AudioPlayer.stop()
+	$Button.text = "Play"
+
 
 
 
@@ -286,6 +297,59 @@ func _on_NextButton_pressed():
 
 
 func _on_ColorPicker_color_changed(color):
-	$Visualizer1.color = color
-	$Visualizer2.color = color
-	$Visualizer3.color = color
+	$Visualizers/Visualizer1.color = color
+	$Visualizers/Visualizer2.color = color
+	$Visualizers/Visualizer3.color = color
+
+
+func _on_LoopButton_pressed():
+	if loop:
+		loop = false
+		print(loop)
+	else:
+		loop = true
+		print(loop)
+
+
+func _on_AudioStreamPlayer_finished():
+#	_on_NextButton_pressed()
+	
+#	yield(get_tree().create_timer(0.5),"timeout")
+#	currentsongidx += 1
+#	songplay = songlist[currentsongidx]
+#	PlaySong()
+	if loop == true:
+		songplay = songlist[currentsongidx]
+		PlaySong()
+
+	elif loop == false:
+		if currentsongidx < songlist.size() - 1:
+			yield(get_tree(),"idle_frame")
+			currentsongidx += 1
+			yield(get_tree(),"idle_frame")
+			songplay = songlist[currentsongidx]
+			yield(get_tree(),"idle_frame")
+			Playlist.select(currentsongidx)
+			yield(get_tree(),"idle_frame")
+			print(songplay)
+			PlaySong()
+
+		elif currentsongidx == songlist.size() - 1:
+			currentsongidx = 0
+			songplay = songlist[currentsongidx]
+			PlaySong()
+			Playlist.select(currentsongidx)
+
+func add_options():
+	for i in $Visualizers.get_children():
+		$OptionButton.add_item(i.name)
+	$OptionButton.select(1)
+
+
+func _on_OptionButton_item_selected(index):
+	var Vis_name = $OptionButton.get_item_text(index)
+	for i in $Visualizers.get_children():
+		print(i.name)
+		get_node("Visualizers/%s" %i.name).visible = false
+	get_node("Visualizers/%s" %Vis_name).visible = true
+	

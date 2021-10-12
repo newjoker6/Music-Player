@@ -45,7 +45,8 @@ valign = 1
 
 [node name="Volume" type="Control" parent="."]
 visible = false
-margin_right = 40.0
+margin_left = -223.0
+margin_right = -183.0
 margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -111,10 +112,10 @@ margin_bottom = 326.715
 text = "..."
 
 [node name="VolumeButton" type="Button" parent="."]
-margin_left = 943.988
-margin_top = 567.1
-margin_right = 963.988
-margin_bottom = 587.1
+margin_left = 724.392
+margin_top = 566.432
+margin_right = 744.392
+margin_bottom = 586.432
 toggle_mode = true
 text = "V"
 
@@ -139,27 +140,55 @@ margin_right = 215.111
 margin_bottom = 586.512
 text = "Next"
 
-[node name="Visualizer1" type="Node2D" parent="."]
+[node name="ColorPicker" type="ColorPickerButton" parent="."]
+margin_left = 904.612
+margin_top = 566.999
+margin_right = 930.612
+margin_bottom = 586.999
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoopButton" type="Button" parent="."]
+margin_left = 227.32
+margin_top = 566.47
+margin_right = 270.32
+margin_bottom = 586.47
+toggle_mode = true
+text = "Loop"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 761.757
+margin_top = 566.999
+margin_right = 874.757
+margin_bottom = 586.999
+text = "Visualizer1"
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Visualizers" type="Node" parent="."]
+
+[node name="Visualizer1" type="Node2D" parent="Visualizers"]
 visible = false
-position = Vector2( 324.436, 280.908 )
+position = Vector2( 324.436, 282.322 )
 script = ExtResource( 3 )
 
-[node name="Visualizer2" type="Node2D" parent="."]
-position = Vector2( 122.343, 396.881 )
+[node name="Visualizer2" type="Node2D" parent="Visualizers"]
+position = Vector2( 122.343, 398.295 )
 script = ExtResource( 4 )
 
-[node name="Visualizer3" type="Node2D" parent="."]
+[node name="Visualizer3" type="Node2D" parent="Visualizers"]
 visible = false
-position = Vector2( 336.963, 392.969 )
+position = Vector2( 336.963, 394.383 )
 script = ExtResource( 2 )
 
-[node name="ColorPicker" type="ColorPickerButton" parent="."]
-margin_left = 338.0
-margin_top = 469.0
-margin_right = 364.0
-margin_bottom = 489.0
-
 [connection signal="pressed" from="Button" to="." method="play_button"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
 [connection signal="value_changed" from="Volume/VolumeSlider" to="." method="_on_VolumeSlider_value_changed"]
 [connection signal="value_changed" from="PlayBackSlider" to="." method="_on_PlayBackSlider_value_changed"]
 [connection signal="files_selected" from="FileDialog" to="." method="_on_FileDialog_files_selected"]
@@ -171,3 +200,5 @@ margin_bottom = 489.0
 [connection signal="pressed" from="PrevButton" to="." method="_on_PrevButton_pressed"]
 [connection signal="pressed" from="NextButton" to="." method="_on_NextButton_pressed"]
 [connection signal="color_changed" from="ColorPicker" to="." method="_on_ColorPicker_color_changed"]
+[connection signal="pressed" from="LoopButton" to="." method="_on_LoopButton_pressed"]
+[connection signal="item_selected" from="OptionButton" to="." method="_on_OptionButton_item_selected"]

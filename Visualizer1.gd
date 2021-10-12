@@ -32,7 +32,7 @@ func _draw():
 	var prev_hz = 0
 	var magnitude_full_db = spectrum.get_magnitude_for_frequency_range(0, 15000).length()
 	var energy_volume = clamp((min_db + linear2db(magnitude_full_db)) / min_db, 0, 1)
-	rotation_degrees = get_parent().get_node("AudioStreamPlayer").get_playback_position() * 5
+	rotation_degrees = get_parent().get_parent().get_node("AudioStreamPlayer").get_playback_position() * 5
 	
 	var small_radius = (max_radius_small/2) * (8 * energy_volume)
 	if small_radius < prev_small_radius:
