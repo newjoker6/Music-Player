@@ -33,7 +33,7 @@ var loop = false
 
 func _ready():
 	add_options()
-	$ColorPicker.color = Color.green
+	$ColorPicker.color = Color("3F985D")
 	
 
 	
@@ -81,11 +81,11 @@ func DisplayCurrentTime():
 func play_button():
 	if songplay != currentsong:
 		PlaySong()
-		$Button.text = "Pause"
+
 		
 	elif AudioPlayer.is_playing() and currentsong == songplay:
 		PauseMusic()
-		$Button.text = "Play"
+
 
 
 
@@ -207,6 +207,7 @@ func _on_ItemList_item_activated(index):
 	songplay = songlist[index]
 	currentsongidx = index
 	PlaySong()
+	$PlayButton.pressed = true
 
 
 
@@ -259,7 +260,8 @@ func _on_StopButton_pressed():
 	print("reset")
 	PlayBackSlider.value = 0
 	AudioPlayer.stop()
-	$Button.text = "Play"
+	$PlayButton.pressed = false
+
 
 
 
@@ -340,3 +342,6 @@ func _on_OptionButton_item_selected(index):
 		get_node("Visualizers/%s" %i.name).visible = false
 	get_node("Visualizers/%s" %Vis_name).visible = true
 	
+
+
+

@@ -13,7 +13,7 @@ var prev_small_radius = 0
 
 var spectrum
 
-var color = Color.green
+var color = Color("3F985D")
 
 func _ready():
 	prev_energy.resize(vu_count)

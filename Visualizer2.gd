@@ -14,7 +14,7 @@ var min_db = -10
 
 var accel = 20
 var histogram = []
-var color = Color.green
+var color = Color("3F985D")
 
 func _ready():
 	max_db += get_parent().get_parent().get_node("AudioStreamPlayer").volume_db
